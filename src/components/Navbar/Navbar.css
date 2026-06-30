@@ -1,0 +1,187 @@
+/* Navbar styles */
+.navbar {
+  height: var(--header-height);
+  background-color: var(--color-background-primary);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.navbar__container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__desktop {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__nav {
+  flex: 1;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Navbar logo styles */
+.navbar__logo {
+  height: var(--logo-height);
+  width: auto;
+}
+
+/* Navbar link styles */
+.navbar__link {
+  position: relative;
+  font-family: var(--font-title);
+  font-size: 1rem;
+  color: var(--color-primary-title);
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+}
+
+.navbar__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 0.01rem;
+  background-color: var(--color-primary-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.navbar__link:hover,
+.navbar__link.active {
+  color: var(--color-primary-gold);
+}
+
+.navbar__link:hover::after,
+.navbar__link.active::after {
+  transform: scaleX(1);
+}
+
+.navbar .navbar__link.active {
+  color: var(--color-primary-gold);
+}
+
+/* Account button styles */
+.navbar__account {
+  margin-left: 1rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--color-primary-gold);
+  color: var(--color-primary-title);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.navbar__account:hover,
+.navbar__account.active {
+  background-color: var(--color-primary-gold);
+  color: var(--color-background-primary);
+}
+
+/* User menu toggle button styles */
+.navbar__user-toggle {
+  display: inline-flex;
+}
+
+.navbar__user-toggle::after {
+  display: none;
+}
+
+/* Navbar toggler styles */
+.navbar-toggler {
+  border-color: var(--color-primary-gold);
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(200,164,106,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Dropdown menu styles */
+.navbar__dropdown {
+  background-color: var(--color-background-secondary);
+  border: 1px solid var(--color-border-primary);
+  padding: 0.5rem;
+}
+
+.navbar__dropdown .dropdown-item {
+  color: var(--color-primary-body);
+  font-family: var(--font-body);
+  border-radius: 4px;
+}
+
+.navbar__dropdown .dropdown-item:hover,
+.navbar__dropdown .dropdown-item:focus {
+  background-color: var(--color-background-tertiary);
+  color: var(--color-primary-gold);
+}
+
+.navbar__mobile-only {
+  display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 991.98px) {
+  .navbar {
+    height: auto;
+    min-height: var(--header-height);
+  }
+
+  .navbar__container {
+    align-items: flex-start;
+  }
+
+  .navbar__collapse {
+    width: 100%;
+    background-color: var(--color-background-primary);
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-border-primary);
+  }
+
+  .navbar__nav {
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .navbar__link,
+  .navbar__mobile-only {
+    display: inline-block;
+    width: fit-content;
+    padding: 0;
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-primary-title);
+    background: transparent;
+    text-transform: uppercase;
+  }
+
+  .navbar__link:hover,
+  .navbar__link.active,
+  .navbar__mobile-only:hover,
+  .navbar__mobile-only.active {
+    color: var(--color-primary-gold);
+    background: transparent;
+  }
+
+  .navbar__mobile-only {
+    display: inline-block;
+  }
+
+  .navbar__actions {
+    display: none;
+  }
+}
