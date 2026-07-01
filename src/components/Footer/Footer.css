@@ -1,0 +1,52 @@
+.footer {
+    padding: 1.5rem 0 1.5rem 0; 
+}
+
+.footer__logo {
+    width: 75%;
+    height: auto;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Footer link styles */
+.footer__link,
+.footer__text {
+  color: var(--color-primary-body);
+}
+
+.footer__link {
+  transition: color 0.2s ease;
+}
+
+.footer__link:hover,
+.footer__link.active {
+  color: var(--color-primary-gold);
+}
+
+.footer__separator {
+    width: 50%;
+    height: 1px;
+    background-color: var(--color-border-primary);
+    margin: 2rem auto 1rem;
+}
+
+/* Social Icons */
+.footer__social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.footer__social-icons a {
+    color: var(--color-primary-title);
+    transition: color .2s ease;
+}
+
+.footer__social-icons a:hover {
+    color: var(--color-primary-gold);
+}
