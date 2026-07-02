@@ -1,0 +1,18 @@
+.auth-card {
+  width: min(100%, 620px);
+  padding: 3rem 4rem;
+  background-color: var(--color-background-primary);
+  border: 1px solid var(--color-primary-gold);
+}
+
+.auth-card__logo {
+  display: block;
+  width: 70%;
+  margin-inline: auto;
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 2rem 1.5rem;
+  }
+}

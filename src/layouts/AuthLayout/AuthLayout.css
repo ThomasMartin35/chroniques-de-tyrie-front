@@ -1,0 +1,11 @@
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+    url("../../assets/images/auth/hero_cdt.png");
+  background-position: center;
+  background-size: cover;
+}

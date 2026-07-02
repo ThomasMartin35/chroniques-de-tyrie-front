@@ -100,6 +100,10 @@ h6 {
   color: var(--color-primary-title);
 }
 
+h1 {
+  font-size: 4rem;
+}
+
 p {
   margin-bottom: 0;
   color: var(--color-primary-body);
@@ -115,4 +119,37 @@ input,
 textarea,
 select {
   font-family: inherit;
+}
+
+.form-label {
+  text-transform: uppercase;
+  color: var(--color-tertiary-text);
+}
+
+.form-control {
+  background-color: transparent;
+  border: 1px solid var(--color-border-primary);
+  color: var(--color-primary-body);
+}
+
+.form-control::placeholder {
+  color: var(--color-disabled);
+}
+
+.form-control:focus {
+  background-color: transparent;
+  border-color: var(--color-primary-gold);
+  color: var(--color-primary-body);
+  box-shadow: none;
+}
+
+.form-check-input:checked {
+  background-color: var(--color-primary-gold);
+  border-color: var(--color-primary-gold);
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
 }

@@ -135,7 +135,7 @@
 }
 
 /* Responsive styles */
-@media (max-width: 991.98px) {
+@media (max-width: 768px) {
   .navbar {
     height: auto;
     min-height: var(--header-height);
@@ -153,7 +153,7 @@
   }
 
   .navbar__nav {
-    align-items: flex-start;
+    align-items: center;
     gap: 1.2rem;
   }
 

@@ -64,7 +64,7 @@ function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Icon className="footer__icon" size={40} />
+                    <Icon className="footer__icon" size={32} />
                   </a>
                 );
               })}
