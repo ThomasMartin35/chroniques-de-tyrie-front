@@ -14,9 +14,27 @@ import { useAuth } from "../../contexts/AuthContext";
 ///////////////////
 
 function UserMenu() {
+  /**
+   * The useAuth hook is used to access the authentication context of the application. It provides information about the current authentication state, such as whether the user is authenticated and functions to log in or log out. In this case, it is used to determine if the user is logged in and to handle the logout process when the user clicks the logout link.
+   */
   const { isAuthenticated, logout } = useAuth();
+
+  /**
+   * The useNavigate hook from react-router-dom is used to programmatically navigate to different routes in the application. It returns a function that can be called with a path to change the current route. In this component, it is used to redirect the user to the home page ("/") after logging out.
+   */
   const navigate = useNavigate();
 
+  /**
+   * The handleLogout function is responsible for logging the user out of the application. It calls the logout function from the authentication context to clear the user's session and then uses the navigate function to redirect the user to the home page ("/"). This ensures that after logging out, the user is taken back to a safe starting point in the application.
+   */
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
+  ///////////////////
+  //    Render     //
+  ///////////////////
   return (
     <Dropdown align="end">
       <Dropdown.Toggle as="div" className="navbar__user-toggle">
@@ -32,14 +50,7 @@ function UserMenu() {
               Mon profil
             </Dropdown.Item>
 
-            <Dropdown.Item
-              onClick={() => {
-                logout();
-                navigate("/");
-              }}
-            >
-              Déconnexion
-            </Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>Déconnexion</Dropdown.Item>
           </>
         ) : (
           <>

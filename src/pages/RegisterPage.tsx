@@ -1,9 +1,0 @@
-function RegisterPage() {
-    return (
-        <main>
-            <h1>Inscription</h1>
-        </main>
-    );
-}
-
-export default RegisterPage;

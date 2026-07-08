@@ -1,0 +1,5 @@
+.profile-page__actions {
+  margin-top: var(--spacing-md);
+  display: flex;
+  justify-content: flex-end;
+}

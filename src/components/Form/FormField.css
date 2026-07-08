@@ -1,0 +1,14 @@
+.form-input__password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  border: 1px solid var(--color-border-primary);
+  background-color: transparent;
+  color: var(--color-primary-body);
+  cursor: pointer;
+}
+
+.form-input__password-toggle:hover {
+  color: var(--color-primary-gold);
+}

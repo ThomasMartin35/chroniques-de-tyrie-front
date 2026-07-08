@@ -115,6 +115,13 @@ function Footer() {
             TyClick - Thomas MARTIN
           </a>
         </p>
+        <p className="footer__copyright text-center">
+          Fansite communautaire — Site non officiel, non affilié à ArenaNet.
+        </p>
+        <p className="footer__copyright text-center">
+          Tous droits réservés à ArenaNet et NCSoft. Les images, vidéos et
+          autres médias sont la propriété de leurs détenteurs respectifs.
+        </p>
       </Container>
     </footer>
   );

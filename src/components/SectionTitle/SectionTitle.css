@@ -1,0 +1,17 @@
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.section-title__text {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.section-title__separator {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border-primary);
+}

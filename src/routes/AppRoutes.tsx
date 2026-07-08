@@ -5,8 +5,8 @@ import MainLayout from "../layouts/MainLayout";
 // Pages
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import ProfilePage from "../pages/ProfilePage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import ActualitesPage from "../pages/NewsPage";
 import ChroniquesPage from "../pages/ChroniclesPage";
 import PodcastsPage from "../pages/PodcastsPage";
@@ -14,21 +14,46 @@ import GuidesPage from "../pages/GuidesPage";
 import AboutPage from "../pages/AboutPage";
 import SearchPage from "../pages/SearchPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import EditProfilePage from "../pages/EditProfilePage/EditProfilePage";
 // Protected Route
 import { ProtectedRoute } from "../components/ProtectedRoute";
+// Guest Route
+import { GuestRoute } from "../components/GuestRoute";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/connexion" element={<LoginPage />} />
-        <Route path="/inscription" element={<RegisterPage />} />
+        <Route
+          path="/connexion"
+          element={
+            <GuestRoute>
+              <LoginPage />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/inscription"
+          element={
+            <GuestRoute>
+              <RegisterPage />
+            </GuestRoute>
+          }
+        />
         <Route
           path="/profil"
           element={
             <ProtectedRoute>
               <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profil/modifier"
+          element={
+            <ProtectedRoute>
+              <EditProfilePage />
             </ProtectedRoute>
           }
         />

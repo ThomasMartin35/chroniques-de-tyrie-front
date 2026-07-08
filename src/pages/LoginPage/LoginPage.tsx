@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 // React Hook Form (Validation)
 import { useForm } from "react-hook-form";
 // React Router
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 // Zod (Validation)
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,9 @@ import { useAuth } from "../../contexts/AuthContext";
 //   Validation  //
 ///////////////////
 const loginSchema = z.object({
-  email: z.string().email("Adresse e-mail invalide"),
+  email: z.email({
+    message: "Adresse e-mail invalide",
+  }),
   password: z.string().min(1, "Le mot de passe est obligatoire"),
   rememberMe: z.boolean(),
 });
@@ -63,6 +65,14 @@ function LoginPage() {
    */
   const navigate = useNavigate();
 
+  /*
+   * Access the current location
+   * This is useful for displaying messages after redirection
+   * For example, after a successful registration, we can redirect to the login page and display a success message.
+   */
+  const location = useLocation();
+  const successMessage = location.state?.successMessage;
+
   /**
    * Handle form submission
    * @param data - The form data
@@ -97,7 +107,14 @@ function LoginPage() {
           </>
         }
       >
-        <Form onSubmit={handleSubmit(onSubmit)} className="login-page__form">
+        <Form
+          onSubmit={handleSubmit(onSubmit)}
+          className="login-page__form gap-3"
+        >
+          {/* TODO: Remplace this with a toast notification instead of redirecting to the login page */}
+          {successMessage && (
+            <p className="login-page__success">{successMessage}</p>
+          )}
           <FormInput
             label="Adresse e-mail"
             type="email"
@@ -111,6 +128,7 @@ function LoginPage() {
             type="password"
             placeholder="Entrez votre mot de passe"
             field={register("password")}
+            showPasswordToggle
             error={errors.password?.message}
           />
 
@@ -128,12 +146,11 @@ function LoginPage() {
           />
 
           {/* TODO : Add a toast if an error occurs*/}
-          {loginError && <p className="login-page__error">{loginError}</p>}
+          {loginError && <p className="page__error">{loginError}</p>}
 
           <Button
             type="submit"
             variant="primary"
-            className="login-page__submit"
           >
             Se connecter
           </Button>

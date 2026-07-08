@@ -1,0 +1,24 @@
+.page-hero {
+  min-height: 25vh;
+  background: url("../../assets/images/auth/hero_cdt.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  border-block: 1px solid var(--color-primary-gold);
+}
+
+.page-hero__overlay {
+  width: min(100%, var(--container-width));
+  /* margin-inline: auto; */
+  padding-inline: var(--spacing-md);
+}
+
+.page-hero__title {
+  margin: 0;
+}
+
+.page-hero__subtitle {
+  margin-top: var(--spacing-sm);
+  max-width: 50%;
+}
