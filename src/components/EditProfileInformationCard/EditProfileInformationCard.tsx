@@ -14,7 +14,7 @@ import type { UserProfileResponse } from "../../types/user";
 // Context
 import { useAuth } from "../../contexts/AuthContext";
 // Styles
-import "./EditProfileCard.css";
+import "./EditProfileInformationCard.css";
 // Services
 import { userService } from "../../services/userService";
 // React Router
@@ -47,14 +47,14 @@ type EditProfileFormValues = z.infer<typeof editProfileSchema>;
 ///////////////////
 //     Props     //
 ///////////////////
-interface EditProfileCardProps {
+interface EditProfileInformationCardProps {
   user: UserProfileResponse;
 }
 
 ///////////////////
 //   Component   //
 ///////////////////
-function EditProfileCard({ user }: EditProfileCardProps) {
+function EditProfileInformationCard({ user }: EditProfileInformationCardProps) {
   const {
     register,
     handleSubmit,
@@ -165,4 +165,4 @@ function EditProfileCard({ user }: EditProfileCardProps) {
   );
 }
 
-export default EditProfileCard;
+export default EditProfileInformationCard;

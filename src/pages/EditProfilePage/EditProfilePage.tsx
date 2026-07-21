@@ -1,5 +1,6 @@
 // Components
-import { EditProfileCard } from "../../components/EditProfileCard";
+import { Section } from "lucide-react";
+import { EditProfileInformationCard } from "../../components/EditProfileInformationCard";
 import { PageHero } from "../../components/PageHero";
 import { SectionTitle } from "../../components/SectionTitle";
 // Context
@@ -30,7 +31,8 @@ function EditProfilePage() {
 
       <section className="container-page container-page--wide page-section">
         <SectionTitle title="Informations personnelles" level="h6" />
-        <EditProfileCard user={user} />
+        <EditProfileInformationCard user={user} />
+        <SectionTitle title="Sécurité" level="h6" />
       </section>
     </main>
   );
