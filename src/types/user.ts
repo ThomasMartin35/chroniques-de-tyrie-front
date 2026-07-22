@@ -13,3 +13,13 @@ export interface UpdateProfileRequest {
     username: string;
     biography: string | null;
 }
+
+export interface UpdatePasswordRequest {
+    currentPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+}
+
+export interface MessageResponse {
+    message: string;
+}

@@ -1,0 +1,1 @@
+export { default as EditPasswordCard } from './EditPasswordCard';

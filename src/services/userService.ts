@@ -1,7 +1,7 @@
 // API Client
 import { apiClient } from "../api/apiClient";
 // Types
-import type { UpdateProfileRequest, UserProfileResponse } from "../types/user";
+import type { MessageResponse, UpdatePasswordRequest, UpdateProfileRequest, UserProfileResponse } from "../types/user";
 
 export const userService = {
   // To get the current user's profile, we can use the endpoint GET /users/me
@@ -22,4 +22,13 @@ export const userService = {
     );
     return response.data;
   },
+
+  // To update the current user's password, we can use the endpoint PATCH /users/me/password
+  async updateUserPassword(data: UpdatePasswordRequest) {
+    const response = await apiClient.patch<MessageResponse>(
+      "/users/me/password",
+      data
+    );
+    return response.data;
+  }
 };

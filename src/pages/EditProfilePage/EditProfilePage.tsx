@@ -1,5 +1,4 @@
 // Components
-import { Section } from "lucide-react";
 import { EditProfileInformationCard } from "../../components/EditProfileInformationCard";
 import { PageHero } from "../../components/PageHero";
 import { SectionTitle } from "../../components/SectionTitle";
@@ -7,6 +6,7 @@ import { SectionTitle } from "../../components/SectionTitle";
 import { useAuth } from "../../contexts/AuthContext";
 // Styles
 import "./EditProfilePage.css";
+import { EditPasswordCard } from "../../components/EditPasswordCard";
 
 ///////////////////
 //   Component   //
@@ -33,6 +33,7 @@ function EditProfilePage() {
         <SectionTitle title="Informations personnelles" level="h6" />
         <EditProfileInformationCard user={user} />
         <SectionTitle title="Sécurité" level="h6" />
+        <EditPasswordCard />
       </section>
     </main>
   );

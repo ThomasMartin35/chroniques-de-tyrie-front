@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // Components
 import { Button } from "../Button";
 import { FormInput } from "../Form";
+import FormTextarea from "../Form/FormTextArea";
 // Types
 import type { UserProfileResponse } from "../../types/user";
 // Context
@@ -23,7 +24,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 // Utils
 import { getRegisterErrorMessage } from "../../utils/authErrorMessage";
-import FormTextarea from "../Form/FormTextArea";
 
 ///////////////////
 //   Validation  //
