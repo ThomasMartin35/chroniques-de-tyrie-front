@@ -18,6 +18,7 @@ import type { UserProfileResponse } from "../../types/user";
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  isAuthLoading: boolean;
   user: UserProfileResponse | null;
   refreshUser: () => Promise<void>;
   login: (token: string) => Promise<void>;
@@ -39,32 +40,35 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 ////////////////////
 
 function AuthProvider({ children }: AuthProviderProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    tokenService.isAuthenticated(),
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   const [user, setUser] = useState<UserProfileResponse | null>(null);
 
   /**
    * Refresh the authenticated user's profile
    */
-  const refreshUser = async () => {
-    try {
-      const userProfile = await userService.getUserProfile();
-      setUser(userProfile);
-    } catch (error) {
-      console.error("Failed to refresh user profile:", error);
-      setUser(null);
-    }
+  const refreshUser = async (): Promise<void> => {
+    const userProfile = await userService.getUserProfile();
+    setUser(userProfile);
   };
 
   /**
    * Login the user
    */
-  const login = async (token: string) => {
+  const login = async (token: string): Promise<void> => {
     tokenService.setToken(token);
-    setIsAuthenticated(true);
-    await refreshUser();
+
+    try {
+      await refreshUser();
+      setIsAuthenticated(true);
+    } catch (error) {
+      tokenService.removeToken();
+      setIsAuthenticated(false);
+      setUser(null);
+      throw error;
+    }
   };
 
   /**
@@ -80,18 +84,26 @@ function AuthProvider({ children }: AuthProviderProps) {
    * Restore authentication after page refresh
    */
   useEffect(() => {
-    const initializeAuth = async () => {
+    const initializeAuth = async (): Promise<void> => {
       if (!tokenService.isAuthenticated()) {
+        setIsAuthLoading(false);
         return;
       }
-      setIsAuthenticated(true);
+
       try {
         await refreshUser();
-      } catch {
-        logout();
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Failed to restore authentication:", error);
+        tokenService.removeToken();
+        setIsAuthenticated(false);
+        setUser(null);
+      } finally {
+        setIsAuthLoading(false);
       }
     };
-    initializeAuth();
+
+    void initializeAuth();
   }, []);
 
   ////////////////////
@@ -102,6 +114,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        isAuthLoading,
         user,
         login,
         logout,

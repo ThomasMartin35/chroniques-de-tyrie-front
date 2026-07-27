@@ -1,0 +1,10 @@
+.edit-profile-page__content {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+}
+
+.edit-profile-page__section {
+	display: flex;
+	flex-direction: column;
+}

@@ -37,7 +37,7 @@ function ProfileCard({ user }: ProfileCardProps) {
         <div className="profile-card__info">
           <Clock size={25} className="profile-card__icon" />
           <div>
-            <p className="profile-card__icon-text">Membre depuis</p>
+            <p className="profile-card__icon-text">Inscrit(e) depuis</p>
             <p>{new Date(user.createdAt).toLocaleDateString()}</p>
           </div>
         </div>

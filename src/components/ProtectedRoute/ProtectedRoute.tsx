@@ -16,7 +16,11 @@ interface ProtectedRouteProps {
 //   Component    //
 ////////////////////
 function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAuthLoading } = useAuth();
+  if (isAuthLoading) {
+    // TODO : Add a loading spinner or skeleton component here to indicate that the authentication status is being checked.
+    return null;
+  }
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
   }
