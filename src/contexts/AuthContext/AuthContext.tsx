@@ -9,8 +9,10 @@ import {
 // Services
 import { tokenService } from "../../services/tokenService";
 import { userService } from "../../services/userService";
+import { authService } from "../../services/authService";
 // Types
 import type { UserProfileResponse } from "../../types/user";
+import { authSessionService } from "../../services/authSessionService";
 
 ////////////////////
 //     Types      //
@@ -22,7 +24,7 @@ interface AuthContextType {
   user: UserProfileResponse | null;
   refreshUser: () => Promise<void>;
   login: (token: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -59,7 +61,6 @@ function AuthProvider({ children }: AuthProviderProps) {
    */
   const login = async (token: string): Promise<void> => {
     tokenService.setToken(token);
-
     try {
       await refreshUser();
       setIsAuthenticated(true);
@@ -74,10 +75,14 @@ function AuthProvider({ children }: AuthProviderProps) {
   /**
    * Logout the user
    */
-  const logout = () => {
-    tokenService.removeToken();
-    setIsAuthenticated(false);
-    setUser(null);
+  const logout = async (): Promise<void> => {
+    try {
+      await authService.logout();
+    } finally {
+      tokenService.removeToken();
+      setIsAuthenticated(false);
+      setUser(null);
+    }
   };
 
   /**
@@ -85,12 +90,9 @@ function AuthProvider({ children }: AuthProviderProps) {
    */
   useEffect(() => {
     const initializeAuth = async (): Promise<void> => {
-      if (!tokenService.isAuthenticated()) {
-        setIsAuthLoading(false);
-        return;
-      }
-
       try {
+        const response = await authService.refresh();
+        tokenService.setToken(response.token);
         await refreshUser();
         setIsAuthenticated(true);
       } catch (error) {
@@ -104,6 +106,21 @@ function AuthProvider({ children }: AuthProviderProps) {
     };
 
     void initializeAuth();
+  }, []);
+
+  /**
+   * Listen for session expiration notifications.
+   */
+  useEffect(() => {
+    authSessionService.setSessionExpiredHandler(() => {
+      tokenService.removeToken();
+      setUser(null);
+      setIsAuthenticated(false);
+    });
+
+    return () => {
+      authSessionService.clearSessionExpiredHandler();
+    };
   }, []);
 
   ////////////////////

@@ -84,7 +84,7 @@ function LoginPage() {
         email: data.email,
         password: data.password,
       });
-      login(response.token);
+      await login(response.token);
       navigate("/profil");
     } catch {
       setLoginError("Le couple email/mot de passe est incorrect.");
