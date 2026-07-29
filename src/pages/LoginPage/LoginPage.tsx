@@ -72,6 +72,7 @@ function LoginPage() {
    */
   const location = useLocation();
   const successMessage = location.state?.successMessage;
+  const redirectPath = location.state?.from?.pathname || "/";
 
   /**
    * Handle form submission
@@ -83,9 +84,12 @@ function LoginPage() {
       const response = await authService.login({
         email: data.email,
         password: data.password,
+        rememberMe: data.rememberMe,
       });
       await login(response.token);
-      navigate("/profil");
+      navigate(redirectPath, { replace: true });
+      console.log("Location state :", location.state);
+      console.log("Redirect path :", redirectPath);
     } catch {
       setLoginError("Le couple email/mot de passe est incorrect.");
     }
@@ -138,7 +142,6 @@ function LoginPage() {
             </NavLink>
           </div>
 
-          {/* TODO: Handle "Remember me" using sessionStorage/localStorage. */}
           <Form.Check
             type="checkbox"
             label="Se souvenir de moi"
@@ -148,10 +151,7 @@ function LoginPage() {
           {/* TODO : Add a toast if an error occurs*/}
           {loginError && <p className="page__error">{loginError}</p>}
 
-          <Button
-            type="submit"
-            variant="primary"
-          >
+          <Button type="submit" variant="primary">
             Se connecter
           </Button>
         </Form>

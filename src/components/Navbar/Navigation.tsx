@@ -1,7 +1,7 @@
 // React Bootstrap components
 import Nav from "react-bootstrap/Nav";
 // React Router components
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 // Context
 import { useAuth } from "../../contexts/AuthContext";
 // Styles
@@ -13,10 +13,11 @@ import { mainNavLinks } from "../../utils/navbarLinks";
 //  Component   //
 //////////////////
 function Navigation() {
+
   /**
-   * This function is used to navigate to a different route in the application. It is provided by the useNavigate hook from react-router-dom. When called with a path, it will change the current route to that path, allowing for programmatic navigation within the app.
+   * The useLocation hook is used to access the current location object, which contains information about the current URL. This is useful for determining where the user is in the application and can be used to manage navigation state, such as redirecting users after login or logout.
    */
-  const navigate = useNavigate();
+  const location = useLocation();
 
   /**
    * The useAuth hook is used to access the authentication context of the application. It provides information about the current authentication state, such as whether the user is authenticated and functions to log in or log out. In this case, it is used to determine if the user is logged in and to handle the logout process when the user clicks the logout link.
@@ -27,13 +28,8 @@ function Navigation() {
    * The handleLogout function is responsible for logging the user out of the application. It calls the logout function from the authentication context to clear the user's session and then uses the navigate function to redirect the user to the home page ("/"). This ensures that after logging out, the user is taken back to a safe starting point in the application.
    */
   const handleLogout = async () => {
-    try {
-      await logout();
-    } finally {
-      navigate("/");
-    }
+    await logout();
   };
-
 
   ///////////////////
   //    Render     //
@@ -83,6 +79,7 @@ function Navigation() {
             className="navbar__link navbar__mobile-only"
             as={NavLink}
             to="/connexion"
+            state={{ from: location }}
           >
             Connexion
           </Nav.Link>

@@ -3,7 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 // Icon Lucide React
 import { UserRound } from "lucide-react";
 // React Router components
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // Components
 import { IconButton } from "../IconButton";
 // Context
@@ -20,19 +20,15 @@ function UserMenu() {
   const { isAuthenticated, logout } = useAuth();
 
   /**
-   * The useNavigate hook from react-router-dom is used to programmatically navigate to different routes in the application. It returns a function that can be called with a path to change the current route. In this component, it is used to redirect the user to the home page ("/") after logging out.
+   * The useLocation hook from react-router-dom is used to access the current location object, which contains information about the current URL. This can be useful for determining where the user is in the application and can be used to manage navigation state, such as redirecting users after login or logout.
    */
-  const navigate = useNavigate();
+  const location = useLocation();
 
   /**
    * The handleLogout function is responsible for logging the user out of the application. It calls the logout function from the authentication context to clear the user's session and then uses the navigate function to redirect the user to the home page ("/"). This ensures that after logging out, the user is taken back to a safe starting point in the application.
    */
   const handleLogout = async () => {
-    try {
-      await logout();
-    } finally {
-      navigate("/");
-    }
+    await logout();
   };
 
   ///////////////////
@@ -57,7 +53,7 @@ function UserMenu() {
           </>
         ) : (
           <>
-            <Dropdown.Item as={Link} to="/connexion">
+            <Dropdown.Item as={Link} to="/connexion" state={{ from: location }}>
               Connexion
             </Dropdown.Item>
 
