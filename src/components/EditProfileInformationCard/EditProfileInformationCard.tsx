@@ -2,7 +2,7 @@
 import { useState } from "react";
 // React Bootstrap
 import Form from "react-bootstrap/Form";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 // Zod (Validation)
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,7 +58,7 @@ function EditProfileInformationCard({ user }: EditProfileInformationCardProps) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<EditProfileFormValues>({
     resolver: zodResolver(editProfileSchema),
@@ -81,7 +81,7 @@ function EditProfileInformationCard({ user }: EditProfileInformationCardProps) {
   /**
    * Watch the biography field to get its current value. This is useful for displaying the current value of the biography in the form, and for any other logic that may depend on the biography's value.
    */
-  const biographyValue = watch("biography") ?? "";
+  const biographyValue = useWatch({ control, name: "biography" }) ?? "";
 
   /**
    * State to manage profile update errors. This state will hold any error messages that occur during the profile update process, allowing them to be displayed to the user.

@@ -1,66 +1,40 @@
 // React
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useState, type ReactNode } from "react";
 // Services
+import { authService } from "../../services/authService";
+import { authSessionService } from "../../services/authSessionService";
 import { tokenService } from "../../services/tokenService";
 import { userService } from "../../services/userService";
-import { authService } from "../../services/authService";
 // Types
 import type { UserProfileResponse } from "../../types/user";
-import { authSessionService } from "../../services/authSessionService";
+// Context
+import { AuthContext } from "./AuthContextDefinition";
 
-////////////////////
-//     Types      //
-////////////////////
-
-interface AuthContextType {
-  isAuthenticated: boolean;
-  isAuthLoading: boolean;
-  user: UserProfileResponse | null;
-  refreshUser: () => Promise<void>;
-  login: (token: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
+/////////////////////
+//     Props       //
+/////////////////////
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 ////////////////////
-//    Context     //
-////////////////////
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-////////////////////
-//   Component    //
+//   Provider     //
 ////////////////////
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const [isAuthLoading, setIsAuthLoading] = useState(true);
-
   const [user, setUser] = useState<UserProfileResponse | null>(null);
 
-  /**
-   * Refresh the authenticated user's profile
-   */
   const refreshUser = async (): Promise<void> => {
     const userProfile = await userService.getUserProfile();
     setUser(userProfile);
   };
 
-  /**
-   * Login the user
-   */
   const login = async (token: string): Promise<void> => {
     tokenService.setToken(token);
+
     try {
       await refreshUser();
       setIsAuthenticated(true);
@@ -72,9 +46,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  /**
-   * Logout the user
-   */
   const logout = async (): Promise<void> => {
     try {
       await authService.logout();
@@ -85,9 +56,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  /**
-   * Restore authentication after page refresh
-   */
   useEffect(() => {
     const initializeAuth = async (): Promise<void> => {
       try {
@@ -108,9 +76,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     void initializeAuth();
   }, []);
 
-  /**
-   * Listen for session expiration notifications.
-   */
   useEffect(() => {
     authSessionService.setSessionExpiredHandler(() => {
       tokenService.removeToken();
@@ -122,10 +87,6 @@ function AuthProvider({ children }: AuthProviderProps) {
       authSessionService.clearSessionExpiredHandler();
     };
   }, []);
-
-  ////////////////////
-  //     Render     //
-  ////////////////////
 
   return (
     <AuthContext.Provider
@@ -143,4 +104,4 @@ function AuthProvider({ children }: AuthProviderProps) {
   );
 }
 
-export { AuthContext, AuthProvider };
+export { AuthProvider };
