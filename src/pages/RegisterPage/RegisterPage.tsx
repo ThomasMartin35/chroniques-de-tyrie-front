@@ -9,6 +9,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 // Zod (Validation)
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { passwordSchema } from "../../validation/auth/passwordSchema";
 // Components
 import { AuthCard } from "../../components/AuthCard";
 import { Button } from "../../components/Button";
@@ -36,24 +37,7 @@ const registerSchema = z
     email: z.email({
       message: "Adresse e-mail invalide",
     }),
-    password: z
-      .string()
-      .min(1, "Le mot de passe est obligatoire")
-      .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-      .max(100, "Le mot de passe ne peut pas dépasser 100 caractères")
-      .regex(
-        /[A-Z]/,
-        "Le mot de passe doit contenir au moins une lettre majuscule",
-      )
-      .regex(
-        /[a-z]/,
-        "Le mot de passe doit contenir au moins une lettre minuscule",
-      )
-      .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre")
-      .regex(
-        /[^A-Za-z0-9]/,
-        "Le mot de passe doit contenir au moins un caractère spécial",
-      ),
+    password: passwordSchema,
     confirmPassword: z
       .string()
       .min(1, "La confirmation du mot de passe est obligatoire"),
@@ -182,7 +166,9 @@ function RegisterPage() {
 
           {/* TODO : Add a toast if an error occurs*/}
           {registrationError && (
-            <p className="page__error">{registrationError}</p>
+            <p className="page__error" role="alert">
+              {registrationError}
+            </p>
           )}
 
           <Button

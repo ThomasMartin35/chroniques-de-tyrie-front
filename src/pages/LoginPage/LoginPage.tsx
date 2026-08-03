@@ -12,11 +12,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // Components
 import { AuthCard } from "../../components/AuthCard";
 import { Button } from "../../components/Button";
+import { FormInput } from "../../components/Form";
 // Layouts
 import { AuthLayout } from "../../layouts/AuthLayout";
 // Styles
 import "./LoginPage.css";
-import { FormInput } from "../../components/Form";
 // Services
 import { authService } from "../../services/authService";
 // Context
@@ -88,8 +88,6 @@ function LoginPage() {
       });
       await login(response.token);
       navigate(redirectPath, { replace: true });
-      console.log("Location state :", location.state);
-      console.log("Redirect path :", redirectPath);
     } catch {
       setLoginError("Le couple email/mot de passe est incorrect.");
     }
@@ -117,7 +115,9 @@ function LoginPage() {
         >
           {/* TODO: Remplace this with a toast notification instead of redirecting to the login page */}
           {successMessage && (
-            <p className="login-page__success">{successMessage}</p>
+            <p className="page__success" role="status">
+              {successMessage}
+            </p>
           )}
           <FormInput
             label="Adresse e-mail"
@@ -149,7 +149,11 @@ function LoginPage() {
           />
 
           {/* TODO : Add a toast if an error occurs*/}
-          {loginError && <p className="page__error">{loginError}</p>}
+          {loginError && (
+            <p className="page__error" role="alert">
+              {loginError}
+            </p>
+          )}
 
           <Button type="submit" variant="primary">
             Se connecter
