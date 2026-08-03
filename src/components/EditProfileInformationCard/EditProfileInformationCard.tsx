@@ -134,7 +134,6 @@ function EditProfileInformationCard({ user }: EditProfileInformationCardProps) {
           field={register("username")}
           error={errors.username?.message}
         />
-
         <FormTextarea
           label="Biographie"
           rows={5}
@@ -145,8 +144,11 @@ function EditProfileInformationCard({ user }: EditProfileInformationCardProps) {
         <p className="edit-profile-card__counter">
           {biographyValue.length} / 500 caractères
         </p>
-
-        {profileError && <p className="page__error">{profileError}</p>}
+        {profileError && (
+          <p className="page__error" role="alert">
+            {profileError}
+          </p>
+        )}
         <div className="edit-profile-card__actions">
           <Button
             type="button"

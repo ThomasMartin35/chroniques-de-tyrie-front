@@ -2,6 +2,10 @@
 import { Route, Routes } from "react-router-dom";
 // Layouts
 import MainLayout from "../layouts/MainLayout";
+// Protected Route
+import { ProtectedRoute } from "../components/ProtectedRoute";
+// Guest Route
+import { GuestRoute } from "../components/GuestRoute";
 // Pages
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
@@ -15,10 +19,8 @@ import AboutPage from "../pages/AboutPage";
 import SearchPage from "../pages/SearchPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import EditProfilePage from "../pages/EditProfilePage/EditProfilePage";
-// Protected Route
-import { ProtectedRoute } from "../components/ProtectedRoute";
-// Guest Route
-import { GuestRoute } from "../components/GuestRoute";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 
 function AppRoutes() {
   return (
@@ -63,6 +65,22 @@ function AppRoutes() {
         <Route path="/guides" element={<GuidesPage />} />
         <Route path="/a-propos" element={<AboutPage />} />
         <Route path="/recherche" element={<SearchPage />} />
+        <Route
+          path="/mot-de-passe-oublie"
+          element={
+            <GuestRoute>
+              <ForgotPasswordPage />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/reinitialisation-mot-de-passe"
+          element={
+            <GuestRoute>
+              <ResetPasswordPage />
+            </GuestRoute>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
