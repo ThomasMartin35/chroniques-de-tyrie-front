@@ -1,0 +1,46 @@
+.avatar-uploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.avatar-uploader__preview {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-primary-gold);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.avatar-uploader__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-uploader__preview span {
+  font-family: var(--font-title);
+  font-size: 4rem;
+  color: var(--color-primary-gold);
+}
+
+.avatar-uploader__input {
+  display: none;
+}
+
+.avatar-uploader__help {
+  margin: 0;
+  color: var(--color-disabled);
+  font-size: 0.875rem;
+}
+
+/* TODO : if the same css is already used, place into the index.css file and remove from here. */
+.avatar-uploader__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}

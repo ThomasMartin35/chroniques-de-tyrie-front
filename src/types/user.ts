@@ -23,3 +23,8 @@ export interface UpdatePasswordRequest {
 export interface MessageResponse {
     message: string;
 }
+
+export interface AvatarResponse {
+    mediaId: string;
+    avatarUrl: string;
+}

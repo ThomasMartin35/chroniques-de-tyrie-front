@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 // Utils
 import { getRegisterErrorMessage } from "../../utils/authErrorMessage";
+import { AvatarUploader } from "../AvatarUploader";
 
 ///////////////////
 //   Validation  //
@@ -114,13 +115,7 @@ function EditProfileInformationCard({ user }: EditProfileInformationCardProps) {
   return (
     <section className="edit-profile-card">
       <div className="edit-profile-card__header">
-        <div className="profile-card__avatar">
-          {user.avatarUrl ? (
-            <img src={user.avatarUrl} alt={`Avatar de ${user.username}`} />
-          ) : (
-            <span>{user.username.charAt(0).toUpperCase()}</span>
-          )}
-        </div>
+        <AvatarUploader user={user} />
       </div>
 
       <Form
