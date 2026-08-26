@@ -4,10 +4,6 @@
   margin-bottom: var(--spacing-md);
 }
 
-.edit-profile-card__header .profile-card__avatar {
-  display: inline-flex;
-}
-
 .edit-profile-card__counter {
   text-align: right;
   color: var(--color-disabled);
