@@ -44,3 +44,32 @@
   justify-content: center;
   gap: var(--spacing-sm);
 }
+
+.avatar-uploader__delete {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-primary-red);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.avatar-uploader__delete:hover {
+  text-decoration: underline;
+}
+
+.avatar-uploader__confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.avatar-uploader__confirmation p {
+  margin: 0;
+}
+
+.avatar-uploader__warning {
+  color: var(--color-disabled);
+  font-size: 0.875rem;
+}

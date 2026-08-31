@@ -1,7 +1,13 @@
 // API Client
 import { apiClient } from "../api/apiClient";
 // Types
-import type { AvatarResponse, MessageResponse, UpdatePasswordRequest, UpdateProfileRequest, UserProfileResponse } from "../types/user";
+import type {
+  AvatarResponse,
+  MessageResponse,
+  UpdatePasswordRequest,
+  UpdateProfileRequest,
+  UserProfileResponse,
+} from "../types/user";
 
 export const userService = {
   // To get the current user's profile, we can use the endpoint GET /users/me
@@ -27,7 +33,7 @@ export const userService = {
   async updateUserPassword(data: UpdatePasswordRequest) {
     const response = await apiClient.patch<MessageResponse>(
       "/users/me/password",
-      data
+      data,
     );
     return response.data;
   },
@@ -43,5 +49,10 @@ export const userService = {
     );
 
     return response.data;
+  },
+
+  // To delete the current user's avatar, we can use the endpoint DELETE /users/me/avatar
+  async deleteAvatar(): Promise<void> {
+    await apiClient.delete("/users/me/avatar");
   },
 };
