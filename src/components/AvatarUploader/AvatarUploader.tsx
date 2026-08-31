@@ -28,11 +28,16 @@ interface AvatarUploaderProps {
 function AvatarUploader({ user }: AvatarUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const hasAvatar = Boolean(user.avatarUrl);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] =
+    useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const isProcessing = isUploading || isDeleting;
 
   /**
    * Access the authentication context to refresh the user profile after updating.
@@ -99,12 +104,34 @@ function AvatarUploader({ user }: AvatarUploaderProps) {
       await refreshUser();
       handleFileReset();
       setSuccessMessage("Avatar mis à jour avec succès !");
-    } catch (error) {
+    } catch {
       setErrorMessage(
         "Une erreur est survenue lors de l’importation de l’avatar. Veuillez réessayer.",
       );
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  /**
+   * Handle the deletion of the current user's avatar. It attempts to delete the avatar using the userService, refreshes the user profile upon success, and manages the relevant UI states and messages.
+   */
+  const handleAvatarDelete = async () => {
+    try {
+      setIsDeleting(true);
+      setErrorMessage(null);
+      setSuccessMessage(null);
+      await userService.deleteAvatar();
+      await refreshUser();
+      handleFileReset();
+      setIsDeleteConfirmationVisible(false);
+      setSuccessMessage("Avatar supprimé avec succès !");
+    } catch {
+      setErrorMessage(
+        "Une erreur est survenue lors de la suppression de l’avatar.",
+      );
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -144,36 +171,55 @@ function AvatarUploader({ user }: AvatarUploaderProps) {
         accept="image/jpeg,image/png,image/webp"
         className="avatar-uploader__input"
         onChange={handleFileChange}
+        disabled={isProcessing}
       />
-      {!selectedFile && (
+      {!selectedFile && !isDeleteConfirmationVisible && (
         <Button
           type="button"
           variant="secondary"
           onClick={() => fileInputRef.current?.click()}
+          disabled={isProcessing}
           isOutline
         >
-          Changer l’avatar
+          {hasAvatar ? "Changer d’avatar" : "Ajouter un avatar"}
         </Button>
       )}
       {selectedFile && (
-        <div className="avatar-uploader__actions">
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={handleFileReset}
-            disabled={isUploading}
-            isOutline
-          >
-            Annuler
-          </Button>
-          <Button
-            type="button"
-            variant="primary"
-            onClick={handleFileUpload}
-            disabled={isUploading}
-          >
-            {isUploading ? "Importation…" : "Confirmer"}
-          </Button>
+        <div className="avatar-uploader__confirmation">
+          {hasAvatar ? (
+            <>
+              <p>Vous êtes sur le point de modifier votre avatar.</p>
+              <p className="avatar-uploader__warning">
+                Votre avatar actuel sera remplacé.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>Vous êtes sur le point d’ajouter un avatar.</p>
+              <p className="avatar-uploader__warning">
+                Vérifiez l’aperçu avant de confirmer.
+              </p>
+            </>
+          )}
+          <div className="avatar-uploader__actions">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleFileReset}
+              disabled={isUploading}
+              isOutline
+            >
+              Annuler
+            </Button>
+            <Button
+              type="button"
+              variant="primary"
+              onClick={handleFileUpload}
+              disabled={isUploading}
+            >
+              {isUploading ? "Importation…" : "Confirmer"}
+            </Button>
+          </div>
         </div>
       )}
       <p className="avatar-uploader__help">
@@ -189,6 +235,49 @@ function AvatarUploader({ user }: AvatarUploaderProps) {
         <p className="page__error" role="alert">
           {errorMessage}
         </p>
+      )}
+      {user.avatarUrl && !selectedFile && !isDeleteConfirmationVisible && (
+        <button
+          type="button"
+          className="avatar-uploader__delete"
+          onClick={() => {
+            setErrorMessage(null);
+            setSuccessMessage(null);
+            setIsDeleteConfirmationVisible(true);
+          }}
+          disabled={isProcessing}
+        >
+          Supprimer mon avatar
+        </button>
+      )}
+      {isDeleteConfirmationVisible && (
+        <div className="avatar-uploader__confirmation">
+          <p>Voulez-vous vraiment supprimer votre avatar ?</p>
+          <p className="avatar-uploader__warning">
+            Cette action est irréversible.
+          </p>
+
+          <div className="avatar-uploader__actions">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setIsDeleteConfirmationVisible(false)}
+              disabled={isDeleting}
+              isOutline
+            >
+              Conserver
+            </Button>
+
+            <Button
+              type="button"
+              variant="primary"
+              onClick={handleAvatarDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Suppression…" : "Supprimer"}
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );
