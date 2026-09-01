@@ -1,10 +1,15 @@
+// React
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-
+// Types
 import type { UserProfileResponse } from "../../types/user";
-
+// CSS
 import "./AvatarUploader.css";
+// Components
 import { Button } from "../Button";
+import { UserAvatar } from "../UserAvatar";
+// Services
 import { userService } from "../../services/userService";
+// Contextes
 import { useAuth } from "../../contexts/AuthContext";
 
 //////////////////////
@@ -26,6 +31,9 @@ interface AvatarUploaderProps {
 //   Component   //
 ///////////////////
 function AvatarUploader({ user }: AvatarUploaderProps) {
+  /////////////////////
+  //    Constants    //
+  /////////////////////
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const hasAvatar = Boolean(user.avatarUrl);
@@ -151,20 +159,14 @@ function AvatarUploader({ user }: AvatarUploaderProps) {
   ///////////////////
   return (
     <div className="avatar-uploader">
-      <div className="avatar-uploader__preview">
-        {previewUrl || user.avatarUrl ? (
-          <img
-            src={previewUrl ?? user.avatarUrl ?? ""}
-            alt={
-              previewUrl
-                ? "Aperçu du nouvel avatar"
-                : `Avatar de ${user.username}`
-            }
-          />
-        ) : (
-          <span>{user.username.charAt(0).toUpperCase()}</span>
-        )}
-      </div>
+      <UserAvatar
+        username={user.username}
+        avatarUrl={previewUrl ?? user.avatarUrl}
+        className="avatar-uploader__preview"
+        alt={
+          previewUrl ? "Aperçu du nouvel avatar" : `Avatar de ${user.username}`
+        }
+      />
       <input
         ref={fileInputRef}
         type="file"

@@ -1,5 +1,6 @@
 // Components
 import { RoleBadge } from "../Badge/RoleBadge";
+import { UserAvatar } from "../UserAvatar";
 // Types
 import type { UserProfileResponse } from "../../types/user";
 // Styles
@@ -20,13 +21,11 @@ interface ProfileCardProps {
 function ProfileCard({ user }: ProfileCardProps) {
   return (
     <section className="profile-card">
-      <div className="profile-card__avatar">
-        {user.avatarUrl ? (
-          <img src={user.avatarUrl} alt={`Avatar de ${user.username}`} />
-        ) : (
-          <span>{user.username.charAt(0).toUpperCase()}</span>
-        )}
-      </div>
+      <UserAvatar
+        username={user.username}
+        avatarUrl={user.avatarUrl}
+        className="profile-card__avatar"
+      />
 
       <div className="profile-card__content">
         <div className="profile-card__header">
